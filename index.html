@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character encoding and responsive viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiBallot - Online Voting System</title>
+    
+    <!-- External CSS libraries and local stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/auth.css">
+    <link rel="stylesheet" href="styles/chatbot.css">
+</head>
+<body>
+    <!-- Main Header with Navigation -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo Section -->
+                <div class="logo">
+                    <i class="fas fa-vote-yea"></i>
+                    <span>DigiBallot</span>
+                </div>
+                
+                <!-- Main Navigation Menu -->
+                <nav>
+                    <ul>
+                        <li><a href="#home" data-i18n="home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#about" data-i18n="about"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="#elections" data-i18n="elections"><i class="fas fa-list-alt"></i> Elections</a></li>
+                        <li><a href="#results" data-i18n="results"><i class="fas fa-chart-bar"></i> Results</a></li>
+                        <li><a href="#contact" data-i18n="contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                        <!-- Language Selector will be inserted here automatically -->
+                        <!-- Admin Panel Link - Access restricted to authorized users -->
+                        <li><a href="admin/login.html" class="admin-link" data-i18n="adminPanel">
+                        <i class="fas fa-user-shield"></i> Admin Panel</a></li>
+                    </ul>
+                </nav>
+                
+                <!-- Authentication Buttons -->
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="loginBtn" data-i18n="login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="btn btn-primary" id="registerBtn" data-i18n="register">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section - Main landing area -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 data-i18n="heroTitle"><i class="fas fa-shield-alt"></i> Secure Online Voting with Face Recognition</h1>
+            <p data-i18n="heroSubtitle">Cast your vote from anywhere, anytime with our secure and transparent voting platform enhanced with biometric verification.</p>
+            <!-- Main Call-to-Action Button -->
+            <button class="btn btn-primary btn-large" id="voteNowBtn" data-i18n="voteNow">
+                <i class="fas fa-vote-yea"></i> Vote Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Features Section - Highlights platform benefits -->
+    <section class="features" id="about">
+        <div class="container">
+            <h2 data-i18n="featuresTitle">Why Choose DigiBallot?</h2>
+            <div class="features-grid">
+                <!-- Feature Card 1: Security -->
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt fa-3x"></i>
+                    <h3 data-i18n="secureEncrypted">Secure & Encrypted</h3>
+                    <p data-i18n="secureDesc">Military-grade encryption ensures your vote remains confidential and tamper-proof.</p>
+                </div>
+                <!-- Feature Card 2: Face Recognition -->
+                <div class="feature-card">
+                    <i class="fas fa-user-check fa-3x"></i>
+                    <h3 data-i18n="faceRecognition">Face Recognition</h3>
+                    <p data-i18n="faceDesc">Advanced biometric verification to ensure one person, one vote.</p>
+                </div>
+                <!-- Feature Card 3: AI Assistant -->
+                <div class="feature-card">
+                    <i class="fas fa-robot fa-3x"></i>
+                    <h3 data-i18n="aiAssistant">AI Assistant</h3>
+                    <p data-i18n="aiDesc">Get instant help with our AI chatbot for any voting-related queries.</p>
+                </div>
+                <!-- Feature Card 4: ID Authentication -->
+                <div class="feature-card">
+                    <i class="fas fa-id-card fa-3x"></i>
+                    <h3 data-i18n="idAuth">ID-Based Authentication</h3>
+                    <p data-i18n="idDesc">Secure login using your Voter ID or Student ID with age verification.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Active Elections Section - Displays current voting opportunities -->
+    <section class="elections" id="elections">
+        <div class="container">
+            <h2 data-i18n="activeElections"><i class="fas fa-list-alt"></i> Active Elections</h2>
+            <!-- Dynamic container for election cards -->
+            <div class="elections-grid" id="electionsContainer">
+                <!-- Elections will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section - Shows live and historical election results -->
+    <section class="results" id="results">
+        <div class="container">
+            <h2 data-i18n="electionResults"><i class="fas fa-chart-bar"></i> Election Results</h2>
+            <p class="section-subtitle" data-i18n="getInTouch">Live and historical election results</p>
+            
+            <!-- Refresh Results Button -->
+            <div class="results-header">
+                <button class="btn btn-outline" id="refreshResults" data-i18n="refreshResults">
+                    <i class="fas fa-sync-alt"></i> Refresh Results
+                </button>
+            </div>
+            
+            <div class="results-container">
+                <!-- Results Filter Tabs -->
+                <div class="results-filter">
+                    <button class="filter-btn active" data-filter="live" data-i18n="liveResults">Live Results</button>
+                    <button class="filter-btn" data-filter="completed" data-i18n="completedElections">Completed Elections</button>
+                </div>
+
+                <!-- Results Content Area -->
+                <div class="results-content">
+                    <!-- Live Results Tab Content -->
+                    <div class="results-category active" id="live-results">
+                        <div class="results-grid" id="liveResultsContainer">
+                            <!-- Live results will be loaded dynamically from backend -->
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p data-i18n="loadingResults">Loading live results...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Elections Tab Content -->
+                    <div class="results-category" id="completed-results">
+                        <div class="completed-elections" id="completedResultsContainer">
+                            <!-- Completed elections will be loaded dynamically -->
+                            <div class="empty-state">
+                                <i class="fas fa-trophy"></i>
+                                <h3 data-i18n="noCompletedElections">No Completed Elections</h3>
+                                <p data-i18n="noCompletedDesc">No elections have been completed yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - User support and communication -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 data-i18n="contactUs"><i class="fas fa-envelope"></i> Contact Us</h2>
+            <p class="section-subtitle" data-i18n="getInTouch">Get in touch with our support team</p>
+            
+            <div class="contact-container">
+                <!-- Contact Information Sidebar -->
+                <div class="contact-info">
+                    <!-- Office Location -->
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3 data-i18n="ourOffice">Our Office</h3>
+                            <p>Sree Sainath Nagar <br>Tirupati-517102</p>
+                        </div>
+                    </div>
+
+                    <!-- Phone Contact -->
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3 data-i18n="phone">Phone</h3>
+                            <p>+91 7569985326</p>
+                            <p data-i18n="businessHours">Mon-Fri: 9:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Email Contact -->
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3 data-i18n="email">Email</h3>
+                            <p>alpha@digiballot.com</p>
+                            <p>help@digiballot.com</p>
+                        </div>
+                    </div>
+
+                    <!-- Support Hours -->
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3 data-i18n="supportHours">Support Hours</h3>
+                            <p data-i18n="weekdays">Monday - Friday: 9AM - 6PM</p>
+                            <p data-i18n="saturday">Saturday: 10AM - 4PM</p>
+                            <p data-i18n="sunday">Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h3 data-i18n="sendMessage">Send us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName" data-i18n="fullName">Full Name</label>
+                                <input type="text" id="contactName" required data-i18n-placeholder="fullName">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail" data-i18n="emailAddress">Email Address</label>
+                                <input type="email" id="contactEmail" required data-i18n-placeholder="emailAddress">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactSubject" data-i18n="subject">Subject</label>
+                            <input type="text" id="contactSubject" required data-i18n-placeholder="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage" data-i18n="message">Message</label>
+                            <textarea id="contactMessage" rows="5" required data-i18n-placeholder="message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-i18n="send">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication Modal - Handles user login and registration -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- Tab Navigation for Login/Register -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login" data-i18n="login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="tab-btn" data-tab="register" data-i18n="register">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </div>
+            
+            <!-- Login Tab Content -->
+            <div class="tab-content active" id="loginTab">
+                <h3 data-i18n="loginToAccount"><i class="fas fa-sign-in-alt"></i> Login to Your Account</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginId" data-i18n="voterId"><i class="fas fa-id-card"></i> Voter ID / Student ID</label>
+                        <input type="text" id="loginId" required data-i18n-placeholder="enterYourId">
+                        <small id="loginMessage" class="message"></small>
+                    </div>
+                    
+                    <!-- ADDED: Password Field for Login -->
+                    <div class="form-group">
+                        <label for="loginPassword" data-i18n="password"><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-input">
+                            <input type="password" id="loginPassword" required data-i18n-placeholder="enterPassword">
+                            <button type="button" class="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full" data-i18n="login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Registration Tab Content -->
+            <div class="tab-content" id="registerTab">
+                <h3 data-i18n="createAccount"><i class="fas fa-user-plus"></i> Create New Account</h3>
+                <form id="registerForm">
+                    <!-- Personal Information -->
+                    <div class="form-group">
+                        <label for="registerName" data-i18n="fullName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="registerName" required data-i18n-placeholder="enterFullName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerId" data-i18n="voterId"><i class="fas fa-id-card"></i> Voter ID / Student ID</label>
+                        <input type="text" id="registerId" required data-i18n-placeholder="enterYourId">
+                        <small id="idMessage" class="message"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail" data-i18n="emailAddress"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="registerEmail" required data-i18n-placeholder="enterEmail">
+                        <small id="emailMessage" class="message"></small>
+                    </div>
+                    
+                    <!-- ADDED: Password Fields for Registration -->
+                    <div class="form-group">
+                        <label for="registerPassword" data-i18n="password"><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-input">
+                            <input type="password" id="registerPassword" required data-i18n-placeholder="enterPassword">
+                            <button type="button" class="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerConfirmPassword" data-i18n="confirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                        <div class="password-input">
+                            <input type="password" id="registerConfirmPassword" required data-i18n-placeholder="confirmPassword">
+                            <button type="button" class="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Date of Birth with Age Verification -->
+                    <div class="form-group">
+                        <label for="registerDob" data-i18n="dateOfBirth"><i class="fas fa-calendar-alt"></i> Date of Birth</label>
+                        <input type="date" id="registerDob" required>
+                        <small id="ageMessage" class="message"></small>
+                    </div>
+                    
+                    <!-- Gender Selection -->
+                    <div class="form-group">
+                        <label data-i18n="gender"><i class="fas fa-venus-mars"></i> Gender</label>
+                        <div class="radio-group">
+                            <input type="radio" id="male" name="gender" value="male" required>
+                            <label for="male" data-i18n="male"><i class="fas fa-male"></i> Male</label>
+                            
+                            <input type="radio" id="female" name="gender" value="female" required>
+                            <label for="female" data-i18n="female"><i class="fas fa-female"></i> Female</label>
+                            
+                            <input type="radio" id="other" name="gender" value="other" required>
+                            <label for="other" data-i18n="other"><i class="fas fa-user"></i> Other</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Face Registration for Biometric Verification -->
+                    <div class="form-group">
+                        <label data-i18n="faceRegistration"><i class="fas fa-camera"></i> Face Registration</label>
+                        <div class="face-registration">
+                            <div class="camera-container">
+                                <video id="video" width="300" height="225" autoplay></video>
+                                <canvas id="canvas" width="300" height="225" style="display:none;"></canvas>
+                                <div class="camera-overlay">
+                                    <div class="face-outline"></div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="captureFace" data-i18n="captureFace">
+                                <i class="fas fa-camera"></i> Capture Face
+                            </button>
+                            <div id="faceStatus" class="status-message"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button - Enabled only after face capture -->
+                    <button type="submit" class="btn btn-primary btn-full" id="registerSubmit" disabled data-i18n="completeRegistration">
+                        <i class="fas fa-user-plus"></i> Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voting Modal - Interface for casting votes -->
+    <div class="modal" id="votingModal">
+        <div class="modal-content voting-modal-content">
+            <div class="voting-header">
+                <h2 data-i18n="castYourVote"><i class="fas fa-vote-yea"></i> Cast Your Vote</h2>
+                <button class="voting-close">&times;</button>
+            </div>
+            <div class="voting-body" id="votingBody">
+                <!-- Content will be dynamically loaded by voting.js -->
+                <!-- Face verification and voting interface will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chatbot - Virtual assistant for user support -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <h3><i class="fas fa-robot"></i> VoteAssistant AI</h3>
+            <div class="chatbot-controls">
+                <button id="maximizeChatbot"><i class="fas fa-expand"></i></button>
+                <button id="minimizeChatbot"><i class="fas fa-minus"></i></button>
+                <button id="closeChatbot"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                <p data-i18n="chatbotWelcome">Hello! I'm your VoteAssistant. How can I help you with the voting process today?</p>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" data-i18n-placeholder="askAboutVoting">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <!-- Footer - Site information and links -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Company Information -->
+                <div class="footer-section">
+                    <h3><i class="fas fa-vote-yea"></i> DigiBallot</h3>
+                    <p data-i18n="companyDesc">Making democratic participation accessible, secure, and convenient for everyone.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4 data-i18n="quickLinks"><i class="fas fa-link"></i> Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-i18n="home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#about" data-i18n="about"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="#elections" data-i18n="elections"><i class="fas fa-list-alt"></i> Elections</a></li>
+                        <li><a href="#results" data-i18n="results"><i class="fas fa-chart-bar"></i> Results</a></li>
+                    </ul>
+                </div>
+                <!-- Contact Information -->
+                <div class="footer-section">
+                    <h4 data-i18n="contact"><i class="fas fa-envelope"></i> Contact</h4>
+                    <p><i class="fas fa-envelope"></i> alpha@digiballot.com</p>
+                    <p><i class="fas fa-phone"></i>+91 7569985326</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Sree Sainath Nagar, Tirupati-517102</p>
+                </div>
+            </div>
+            <!-- Copyright Notice -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 DigiBallot. <span data-i18n="copyright">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files - Application functionality -->
+    <!-- Load in correct order to avoid conflicts -->
+    <script src="/config/api-config.js"></script>
+    <script src="scripts/api-service.js"></script>
+    <script src="scripts/language-config.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/voting.js"></script>
+    <script src="scripts/chatbot.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    
+    <!-- Note: face-recognition.js has been removed to prevent duplicate camera openings -->
+</body>
+</html>

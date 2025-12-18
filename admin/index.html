@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - DigiBallot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+    <link rel="stylesheet" href="../styles/admin/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-vote-yea"></i>
+                    <span>DigiBallot Admin</span>
+                </div>
+            </div>
+            
+            <ul class="sidebar-nav">
+                <li class="nav-item active">
+                    <a href="#dashboard" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#voters" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Manage Voters</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#candidates" class="nav-link">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Manage Candidates</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#elections" class="nav-link">
+                        <i class="fas fa-list-alt"></i>
+                        <span>Manage Elections</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#results" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Voting Results</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#notifications" class="nav-link">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#security" class="nav-link">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security & Access</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#audit" class="nav-link">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Audit Logs</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">Loading...</span>
+                        <span class="user-role">Loading...</span>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="btn btn-outline" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard Overview</h1>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i> Refresh Data
+                        </button>
+                        <div class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalVoters">0</h3>
+                                <p>Total Voters Registered</p>
+                            </div>
+                            <div class="stat-trend" id="voterTrend">
+                                <i class="fas fa-minus"></i> 0%
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalCandidates">0</h3>
+                                <p>Total Candidates</p>
+                            </div>
+                            <div class="stat-trend" id="candidateTrend">
+                                <i class="fas fa-minus"></i> 0%
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-vote-yea"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalVotes">0</h3>
+                                <p>Total Votes Cast</p>
+                            </div>
+                            <div class="stat-trend" id="voteTrend">
+                                <i class="fas fa-minus"></i> 0%
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="votingPercentage">0%</h3>
+                                <p>Live Voting Percentage</p>
+                            </div>
+                            <div class="stat-trend" id="percentageTrend">
+                                <i class="fas fa-minus"></i> 0%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3>Election Status Distribution</h3>
+                            <canvas id="electionStatusChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Voting Progress</h3>
+                            <canvas id="votingProgressChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="recent-activities">
+                        <h3>Recent Activities</h3>
+                        <div class="activities-list" id="activitiesList">
+                            <div class="activity-item loading">
+                                <div class="activity-icon">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Loading recent activities...</p>
+                                    <span class="activity-time">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Manage Voters Section -->
+                <section id="voters" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Voters</h2>
+                        <button class="btn btn-primary" id="addVoterBtn">
+                            <i class="fas fa-user-plus"></i> Add New Voter
+                        </button>
+                    </div>
+                    
+                    <div class="filters-bar">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="voterSearch" placeholder="Search voters by name or ID...">
+                        </div>
+                        <select id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="verified">Verified</option>
+                            <option value="pending">Pending</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-loading" id="votersLoading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading voters data...
+                        </div>
+                        <table class="data-table" id="votersTable" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Voter ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Registration Date</th>
+                                    <th>Has Voted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="votersTableBody">
+                                <!-- Voters data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Manage Candidates Section -->
+                <section id="candidates" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Candidates</h2>
+                        <button class="btn btn-primary" id="addCandidateBtn">
+                            <i class="fas fa-plus"></i> Add Candidate
+                        </button>
+                    </div>
+
+                    <div class="candidates-filters">
+                        <select id="electionFilter">
+                            <option value="">All Elections</option>
+                        </select>
+                        <select id="positionFilter">
+                            <option value="">All Positions</option>
+                        </select>
+                    </div>
+
+                    <div class="candidates-loading" id="candidatesLoading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading candidates...
+                    </div>
+                    <div class="candidates-grid" id="candidatesContainer" style="display: none;">
+                        <!-- Candidates will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Manage Elections Section -->
+                <section id="elections" class="content-section">
+                    <div class="section-header">
+                        <h2>Manage Elections</h2>
+                        <button class="btn btn-primary" id="createElectionBtn">
+                            <i class="fas fa-plus"></i> Create Election
+                        </button>
+                    </div>
+
+                    <div class="elections-tabs">
+                        <button class="tab-btn active" data-tab="active">Active</button>
+                        <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+                        <button class="tab-btn" data-tab="completed">Completed</button>
+                        <button class="tab-btn" data-tab="all">All Elections</button>
+                    </div>
+
+                    <div class="elections-loading" id="electionsLoading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading elections...
+                    </div>
+                    <div class="elections-grid" id="electionsContainer" style="display: none;">
+                        <!-- Elections will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Voting Results Section -->
+                <section id="results" class="content-section">
+                    <div class="section-header">
+                        <h2>Voting Results</h2>
+                        <div class="results-controls">
+                            <select id="electionSelect">
+                                <option value="">Select Election</option>
+                            </select>
+                            <button class="btn btn-outline" id="exportResultsBtn">
+                                <i class="fas fa-download"></i> Export Results
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="results-loading" id="resultsLoading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading results data...
+                    </div>
+                    <div class="results-container" id="resultsContent" style="display: none;">
+                        <div class="results-charts">
+                            <div class="chart-card large">
+                                <h3 id="resultsTitle">Live Results</h3>
+                                <canvas id="resultsChart"></canvas>
+                            </div>
+                            <div class="chart-card">
+                                <h3>Vote Distribution</h3>
+                                <canvas id="distributionChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="results-table">
+                            <h3>Detailed Results</h3>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Candidate</th>
+                                        <th>Party</th>
+                                        <th>Votes</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultsTableBody">
+                                    <!-- Results will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Notifications Section -->
+                <section id="notifications" class="content-section">
+                    <div class="section-header">
+                        <h2>Notifications & Announcements</h2>
+                        <button class="btn btn-primary" id="sendNotificationBtn">
+                            <i class="fas fa-bullhorn"></i> Send Announcement
+                        </button>
+                    </div>
+
+                    <div class="notifications-container">
+                        <div class="notification-form">
+                            <h3>Create New Announcement</h3>
+                            <form id="announcementForm">
+                                <div class="form-group">
+                                    <label for="announcementTitle">Title</label>
+                                    <input type="text" id="announcementTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="announcementMessage">Message</label>
+                                    <textarea id="announcementMessage" rows="4" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="announcementType">Type</label>
+                                    <select id="announcementType">
+                                        <option value="info">Information</option>
+                                        <option value="warning">Warning</option>
+                                        <option value="urgent">Urgent</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Announcement</button>
+                            </form>
+                        </div>
+
+                        <div class="notifications-list">
+                            <h3>Recent Announcements</h3>
+                            <div class="notification-items" id="notificationItems">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Security & Access Section -->
+                <section id="security" class="content-section">
+                    <div class="security-container">
+                        <div class="security-card">
+                            <h3><i class="fas fa-user-shield"></i> Admin Access Control</h3>
+                            <div class="admin-list" id="adminList">
+                                <!-- Admin users will be listed here -->
+                            </div>
+                            <button class="btn btn-primary" id="addAdminBtn">
+                                <i class="fas fa-user-plus"></i> Add Admin User
+                            </button>
+                        </div>
+
+                        <div class="security-card">
+                            <h3><i class="fas fa-key"></i> Change Password</h3>
+                            <form id="changePasswordForm">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Audit Logs Section -->
+                <section id="audit" class="content-section">
+                    <div class="section-header">
+                        <h2>Audit Logs</h2>
+                        <div class="filter-options">
+                            <input type="date" id="auditDateFrom">
+                            <input type="date" id="auditDateTo">
+                            <select id="auditActionFilter">
+                                <option value="">All Actions</option>
+                                <option value="login">Login</option>
+                                <option value="create">Create</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+                                <option value="vote">Vote</option>
+                            </select>
+                            <button class="btn btn-outline" id="clearAuditFilters">
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-loading" id="auditLoading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading audit logs...
+                        </div>
+                        <table class="data-table" id="auditLogsTable" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Action</th>
+                                    <th>Details</th>
+                                    <th>IP Address</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditTableBody">
+                                <!-- Audit logs will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals will be added by JavaScript -->
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/config/api-config.js"></script>
+<script src="../scripts/api-service.js"></script>
+
+<!-- Load admin scripts in correct order -->
+<script src="../scripts/admin/admin-panel.js"></script>
+<script src="../scripts/admin/admin.js"></script>
+<script src="../scripts/admin/dashboard.js"></script>
+<script src="../scripts/admin/voters.js"></script>
+<script src="../scripts/admin/candidates.js"></script>
+<script src="../scripts/admin/elections.js"></script>
+<script src="../scripts/admin/results.js"></script>
+    
+    <!-- Authentication Check -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Checking admin authentication...');
+        
+        // Check admin authentication - use the correct keys
+        const token = localStorage.getItem('adminToken');
+        const adminData = localStorage.getItem('currentAdmin');
+
+        console.log('Token exists:', !!token);
+        console.log('Admin data exists:', !!adminData);
+
+        if (!token || !adminData) {
+            console.log('Not authenticated, redirecting to login...');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        try {
+            const admin = JSON.parse(adminData);
+            console.log('Admin user:', admin);
+            
+            // Set admin info in sidebar
+            const userNameElement = document.querySelector('.user-name');
+            const userRoleElement = document.querySelector('.user-role');
+            
+            if (userNameElement) {
+                userNameElement.textContent = admin.username || 'Admin User';
+            }
+            if (userRoleElement) {
+                const role = admin.role || 'admin';
+                userRoleElement.textContent = role.replace('_', ' ').toUpperCase();
+            }
+
+            // Handle logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Logout clicked');
+                    
+                    // Clear admin authentication data
+                    localStorage.removeItem('adminToken');
+                    localStorage.removeItem('currentAdmin');
+                    
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                });
+            }
+
+            console.log('Admin panel initialized successfully');
+
+        } catch (error) {
+            console.error('Error initializing admin panel:', error);
+            // Clear invalid data and redirect to login
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('currentAdmin');
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>
