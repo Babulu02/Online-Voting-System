@@ -29,36 +29,43 @@ DigiBallot is a secure, web-based **Online Voting System** designed to conduct e
 ---
 
 ## 🏗️ Project Structure
-VOTING SYSTEM/
-├── .dist/
-├── assets/
-├── scripts/
-│   ├── auth.js
-│   ├── chatbot.js
-│   ├── face-recognition.js
-│   ├── main.js
-│   ├── voting.js
-│   └── admin/              # Admin scripts folder
-│       ├── admin.js
-│       ├── auth.js
-│       ├── dashboard.js
-│       ├── voters.js
-│       ├── candidates.js
-│       ├── elections.js
-│       └── results.js
-├── styles/
-│   ├── auth.css
-│   ├── chatbot.css
-│   ├── main.css
-│   └── admin/              # Admin styles folder
-│       ├── admin.css
-│       └── auth.css
-├── index.html
-.hintrc
-└── admin/                  # Admin HTML files
-    ├── index.html
-    └── login.html
-
+VOTING-SYSTEM/
+│
+├── .dist/ # Build / distribution files
+├── assets/ # Images, icons, and static assets
+│
+├── scripts/ # JavaScript files
+│ ├── auth.js # User authentication logic
+│ ├── chatbot.js # AI chatbot functionality
+│ ├── face-recognition.js # Face recognition (biometric UI)
+│ ├── main.js # Main site logic
+│ ├── voting.js # Voting process logic
+│ │
+│ └── admin/ # Admin scripts
+│ ├── admin.js
+│ ├── auth.js
+│ ├── dashboard.js
+│ ├── voters.js
+│ ├── candidates.js
+│ ├── elections.js
+│ └── results.js
+│
+├── styles/ # CSS files
+│ ├── auth.css # User authentication styles
+│ ├── chatbot.css # Chatbot UI styles
+│ ├── main.css # Main site styles
+│ │
+│ └── admin/ # Admin styles
+│ ├── admin.css
+│ └── auth.css
+│
+├── admin/ # Admin HTML files
+│ ├── index.html # Admin dashboard
+│ └── login.html # Admin login page
+│
+├── index.html # Main landing page
+├── .hintrc # Code quality / lint configuration
+└── README.md # Project documentation
 
 ---
 
@@ -100,6 +107,12 @@ Displays the main landing page with features, active elections, and navigation o
 ### 🔐 User Login & Registration
 Allows voters to securely register and log in to the system.
 ![User Login](screenshots/user-login.png)
+
+---
+
+### 🌐 Multi-Language Support
+Allows users to switch between multiple languages for better accessibility and usability.
+![Multi Language Support](screenshots/Multi-Language.png)
 
 ---
 
